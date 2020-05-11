@@ -1,2 +1,2 @@
 # Disaster-Response-Pipelines
-The Udacity Nano Degree Project DRP
+Disaster Response Pipeline Project 
