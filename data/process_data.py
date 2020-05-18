@@ -4,6 +4,17 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    '''
+    Load the files from the filepath and merge the .csv files on common id
+
+    Args:
+    messages_filepath : str - file path or filename for the messages
+    categories_filepath: file : str - file path or filename for the categories
+
+    Returns:
+    merged dataframe
+    '''
+
     # load dataset
     categories = pd.read_csv(categories_filepath)
     messages = pd.read_csv(messages_filepath)
@@ -32,12 +43,32 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    '''
+    Clean the  merged dataframe from load_data()
+
+    Args:
+    merged dataframe
+
+    Returns:
+    cleaned dataframe post merger on 'id' feature
+    '''
+
     # drop duplicates
     df = df.drop_duplicates()
     return df
     
 
 def save_data(df, database_filename):
+    '''
+    Save the cleaned dataframe in to SQL database
+
+    Args:
+    cleaned datfarame, database filename
+
+    Returns:
+    None
+    '''
+
     engine = create_engine('sqlite:///'+database_filename)
     df.to_sql('DisasterResponse', engine,if_exists = 'replace', index=False)  
 
