@@ -18,6 +18,17 @@ from sklearn.multioutput import MultiOutputClassifier
 import pickle
 
 def load_data(database_filepath):
+    '''
+    Description:
+    Load data from the database filepath and read in the table name to extract the data,target and category names of the labels.
+
+    Input:
+    database filepath
+
+    Output:
+    X - data,Y - multioutput target,category names(labels)
+    '''
+
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('DisasterResponse', engine)
     X = df.message
@@ -26,6 +37,17 @@ def load_data(database_filepath):
     return X, y, category_names 
 
 def tokenize(text):
+    '''
+    Description :
+    Normalize,tokenize,apply stemming and lemmatization to text data.
+
+    Input:
+    text(str) containing message that needs to be tokenized.
+
+    Output :
+    processed word tokens: normalized,tokenized,lemmatized and stemmed
+    '''
+
     url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
     detected_urls = re.findall(url_regex, text)
     for url in detected_urls:
@@ -43,6 +65,17 @@ def tokenize(text):
 
 
 def build_model():
+    '''
+    Description:
+    Create pipeline object and set the parameters for GridSearchCV
+
+    Input:
+    None
+
+    Output:
+    GridSearchCV object with optimal parameters.
+    '''
+
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
@@ -59,11 +92,32 @@ def build_model():
 
 
 def evaluate_model(model, X_test, y_test, category_names):
+    '''
+    Evaluate model on accuracy score,fbeta score.Generate classification report
+    Print the classification report,mean fbeta score and mean accuracy score
+
+    Args:
+    model,X_test, Y_test, category_names
+
+    Returns:
+    None
+    '''
+
     y_pred = model.predict(X_test)
     class_report = classification_report(y_test, y_pred, target_names=category_names)
     print(class_report)
 
 def save_model(model, model_filepath):
+    '''
+    Save the model with optimal parameters obtained from GridSearchCV
+
+    Args:
+    final optimized model and the model file path
+
+    Returns:
+    None
+    '''
+
     with open(model_filepath, 'wb') as file:
         pickle.dump(model, file)
 
