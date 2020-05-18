@@ -1,5 +1,7 @@
 # Disaster Response Pipelines Project
 
+![image](https://user-images.githubusercontent.com/33673374/82263232-0cc1f200-9928-11ea-913e-f2c2a4bf34b7.png)
+
 <img width="712" alt="Message-screenshot" src="https://user-images.githubusercontent.com/33673374/82179429-eeb2ae00-98a3-11ea-886a-631b774aeb14.png">
 
 ## Project Overview
